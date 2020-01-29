@@ -4,25 +4,35 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 #file_path = dirname(_)
-file_name = '/Users/marksanchez/src/DataVisualization/data/sitka_weather_2018_simple.csv'
+file_name = '/Users/marksanchez/src/DataVisualization/data/death_valley_2018_simple.csv'
 
 with open (file_name) as f:
     reader = csv.reader(f)
     header_row = next(reader)
-    # header_num = 0
-    # for header in header_row:
-    #     print(str(header_num) + " " + header)
-    #     header_num = header_num + 1
+    header_num = 0
+    for header in header_row:
+        print(str(header_num) + " " + header)
+        header_num = header_num + 1
     highs = []
     dates = []
     lows = []
     for row in reader:
-        high = int(row[5])
-        highs.append(high)
         date = datetime.strptime(row[2], '%Y-%m-%d')
         dates.append(date)
-        low = int(row[6])
-        lows.append(low)
+        try:
+            high = int(row[4])
+            highs.append(high)
+        except:
+            print(f"invalid high value for {date}")
+            high = 0
+            highs.append(high)
+        try:
+            low = int(row[5])
+            lows.append(low)
+        except:
+            print(f"invalid low value for {date}")
+            low = 0
+            lows.append(low)
     #print(highs)
     plt.style.use('seaborn')
     fig, ax = plt.subplots()
