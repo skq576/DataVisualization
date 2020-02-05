@@ -11,19 +11,23 @@ print(r.status_code)
 
 response_dict = r.json()
 repo_dicts = response_dict['items']
-names, stars, labels = [], [], []
+names, stars, labels, links = [], [], [], []
 for repo_dict in repo_dicts:
     # print(repo_dict['owner']['login'])
+    name = repo_dict['name']
     names.append(repo_dict['name'])
     stars.append(repo_dict['stargazers_count'])
     owner = repo_dict['owner']['login']
     description = repo_dict['description']
     label = f"{owner}<br />{description}"
     labels.append(label)
+    url = repo_dict['html_url']
+    links.append(f"<a href='{url}'>{name}</a>")
+    
 
 data =[{
     'type': 'bar',
-    'x': names,
+    'x': links,
     'y': stars,
     'hovertext': labels,
     'marker':{
